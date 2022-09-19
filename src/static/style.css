@@ -1,0 +1,134 @@
+.header {
+    position: fixed;
+    width: 100%;
+    top: 0;
+}
+
+body {
+    background: #fefefc;
+    padding-top: 100px;
+}
+
+#topbar-center-logo {
+    background: #fefefc;
+}
+
+.topbar-center-logo {
+    background: #fefefc;
+}
+
+.topbar-center-logo .menu {
+    background: #fefefc;
+}
+
+.topbar-center-logo-mobile .title-bar-title a {
+    color: #fefefc;
+}
+
+.topbar-center-logo .menu a {
+    color: #fefefc;
+}
+
+.topbar-center-logo .top-bar-center {
+    -webkit-flex: 1 0 auto;
+    -ms-flex: 1 0 auto;
+    flex: 1 0 auto;
+}
+
+@media screen and (max-width: 39.9375em) {
+    .topbar-center-logo .top-bar-center {
+        display: none;
+    }
+}
+
+.topbar-center-logo-mobile {
+    background: #fefefc;
+}
+
+.topbar-center-logo-mobile .menu-icon {
+    vertical-align: text-top;
+}
+
+.top-bar-right {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.title {
+    font-size: 24px;
+    color: black;
+}
+
+.button a {
+    display: inline;
+}
+
+.signup-button, .login-button, .logout-button {
+    margin: 5px 0 5px 5px;
+    width: 130px;
+    padding: 0;
+    font-size: 18px;
+}
+
+
+
+@media screen and (max-width: 39.9375em) {
+    .container {
+        width: 85%;
+        margin: 0 auto;
+        margin-top: 40px;
+    }
+
+    .form-area {
+        width: 70%;
+        margin: 40px auto;
+    }
+}
+
+@media screen and (min-width: 39.9375em) {
+    .container {
+        width: 70%;
+        margin: 0 auto;
+        margin-top: 40px;
+    }
+
+    .form-container {
+        width: 50%;
+        margin: 40px auto;
+    }
+
+    .form-area {
+        width: 50%;
+        margin: 40px auto;
+    }
+}
+
+.radius {
+    border-radius: 10px;
+}
+
+.subheader {
+    color: black;
+}
+
+.message-area {
+    color: red;
+}
+
+.message-area .success {
+    color: springgreen;
+}
+
+.done-button {
+    float: right
+}
+
+.rank {
+    width: 7%;
+}
+
+.input-disabled {
+    border: none;
+    pointer-events: none;
+    box-shadow: none;
+}

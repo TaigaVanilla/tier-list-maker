@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name=”description“ content=“This tier list maker will help you create your own ranking board.“ />
+    <title>Tier List Maker</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/foundation-sites@6.7.4/dist/css/foundation.min.css"
+        crossorigin="anonymous">
+    <link rel="stylesheet" href="../static/style.css">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+</head>
+
+<body>
+    <header id="header" class="header">
+        <!-- mobile nav bar -->
+        <div class="title-bar topbar-center-logo-mobile" data-responsive-toggle="topbar-center-logo"
+            data-hide-for="medium">
+            <div class="title-bar-left">
+                <div class="title-bar-title"><a href="{{ url_for('index') }}"><strong class="title">Tier List
+                            Maker</strong></a></div>
+            </div>
+            <div class="title-bar-right">
+                <button class="menu-icon dark" type="button" data-toggle="topbar-center-logo"></button>
+            </div>
+        </div>
+        <!-- /mobile nav bar -->
+
+        <!-- medium and larger nav bar -->
+        <div class="top-bar topbar-center-logo" id="topbar-center-logo">
+            <div class="top-bar-left">
+                <ul class="menu vertical medium-horizontal hide-for-small-only">
+                    <li><a href="{{ url_for('index') }}"><strong class="title">Tier List Maker</strong></a></li>
+                </ul>
+            </div>
+
+            <div class="top-bar-right">
+                <ul class="menu vertical medium-horizontal">
+                    {% if current_user.is_authenticated %}
+                    <button class="button logout-button radius"><a href="{{ url_for('logout') }}">Logout</a></button>
+                    {% else %}
+                    <button class="button signup-button radius"><a href="{{ url_for('signup') }}">Sign up</a></button>
+                    <button class="button login-button radius"><a href="{{ url_for('login') }}">Login</a></button>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+        <!-- /medium and larger nav bar -->
+    </header>
+
+    {% block content %}{% endblock %}
+
+    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script src="https://dhbhdrzi4tiry.cloudfront.net/cdn/sites/foundation.js"></script>
+    <script>
+        $(document).foundation();
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,7 @@
+flask
+flask-login
+flask-sqlalchemy
+Flask-WTF
+psycopg2
+pytz
+wtforms

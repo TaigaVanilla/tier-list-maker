@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<section class="form-container">
+    <div class="form-area">
+        <h1 class="subheader text-center">Create your Account</h1>
+        <form method="POST">
+            {{ form.csrf_token }}
+            <div class="row">
+                <div class="medium-6 columns">
+                    {{ form.username.label }}
+                    {{ form.username(class="radius") }}
+                </div>
+            </div>
+            <div class="message-area">
+                {% for error in form.username.errors %}
+                {{ error }}
+                {% endfor %}
+            </div>
+            <div class="row">
+                <div class="medium-6 columns">
+                    {{ form.password.label }}
+                    {{ form.password(class="radius") }}
+                </div>
+            </div>
+            <div class="message-area">
+                {% for error in form.password.errors %}
+                {{ error }}
+                {% endfor %}
+            </div>
+            <div class="row">
+                <div class="medium-6 columns">
+                    {{ form.confirm.label }}
+                    {{ form.confirm(class="radius") }}
+                </div>
+            </div>
+            <div class="message-area">
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                {% for category, message in messages %}
+                <div class="{{ category }}"> {{ message }} </div>
+                {% endfor %}
+                {% endif %}
+                {% endwith %}
+            </div>
+            {{ form.submit(class="button expanded radius") }}
+        </form>
+    </div>
+</section>
+
+<script src="../static/common.js"></script>
+
+{% endblock %}

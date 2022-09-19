@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<section class="container">
+    <h1 class="subheader text-center">Your List</h1>
+    <div class="message-area">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        {% for category, message in messages %}
+        <div class="{{ category }}" style="text-align: center; font-size: 18px;"> {{ message }} </div>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+    </div>
+    <div class="list-wrapper">
+        <form action="{{ url_for('update') }}" method="post" name="listform">
+            <table id="table" class="unstriped">
+                <thead>
+                    <tr>
+                        <th class="rank">Rank</th>
+                        <th class="content">Content</th>
+                        <th class="comment">Comment</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for rank, content, comment in list %}
+                    <tr>
+                        <td><input type="number" class="input-text" name="rank" value="{{ rank }}" max="99999"></td>
+                        <td><input type="text" class="input-text" name="content" value="{{ content }}" maxlength="80">
+                        </td>
+                        <td><input type="text" class="input-text" name="comment" value="{{ comment }}" maxlength="255">
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <button type="button" id="editButton" class="button radius" onclick="editMode()">Edit</button>
+            <button type="button" id="addRowButton" class="button radius" onclick="addRow()">+</button>
+            <button type="button" id="cancelButton" class="button radius" onclick="showConfirm()">Cancel</button>
+            <button type="submit" id="doneButton" class="button done-button radius">Done</button>
+        </form>
+    </div>
+</section>
+
+<script src="../static/common.js"></script>
+<script src="../static/tier-list-maker.js"></script>
+
+{% endblock %}

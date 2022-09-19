@@ -1,0 +1,28 @@
+version: "3"
+services:
+  web:
+    build: .
+    ports:
+      - "80:80"
+    volumes:
+      - ./src:/app
+    environment:
+      - FLASK_APP
+      - FLASK_ENV
+    env_file:
+      - .env
+    command: flask run --host=0.0.0.0 --port=80
+    depends_on:
+      - db
+
+  db:
+    image: postgres:14.4
+    container_name: postgresql
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER
+      - POSTGRES_PASSWORD
+      - POSTGRES_DB
+      - TZ
+      - POSTGRES_INITDB_ARGS
