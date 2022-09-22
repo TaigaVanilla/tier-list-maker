@@ -7,11 +7,9 @@ class Config(object):
 
     SECRET_KEY = os.urandom(24)
 
-    SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL').replace('postgres://', 'postgresql://')
-
 
 class ProductionConfig(Config):
-    pass
+    SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL').replace('postgres://', 'postgresql://')
 
 
 class DevelopmentConfig(Config):
