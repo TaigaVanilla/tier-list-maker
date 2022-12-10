@@ -1,7 +1,7 @@
-flask
-flask-login
-flask-sqlalchemy
-Flask-WTF
-psycopg2
-pytz
-wtforms
+flask == 2.2.2
+flask-login == 0.6.2
+flask-sqlalchemy == 2.5.1
+Flask-WTF == 1.0.1
+psycopg2 == 2.9.5
+pytz == 2022.6
+wtforms == 3.0.0
