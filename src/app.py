@@ -124,7 +124,6 @@ def get_mylist():
 
 
 def update_mylist(rank, content, comment):
-
     try:
         db.session.query(List).filter_by(user_id=current_user.get_id()).delete()
 
@@ -144,12 +143,12 @@ def update_mylist(rank, content, comment):
 
 def validate_list(rank, content, comment):
     for row in range(len(rank)):
-        if int(rank[row]) < 0:
-            flash('Rank must be greater than or equal to 0')
+        if not rank[row].isnumeric() and rank[row] == '':
+            flash('Rank must be a number', 'error')
             return False
 
-        if not rank[row].isnumeric() and not rank[row] == '':
-            flash('Rank must be a number', 'error')
+        if int(rank[row]) < 0:
+            flash('Rank must be greater than or equal to 0')
             return False
 
         if len(rank[row]) > 5:
