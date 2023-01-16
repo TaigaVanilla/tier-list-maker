@@ -73,7 +73,7 @@ def logout():
 
 @login_manager.user_loader
 def load_user(id):
-    return User.query.get(int(id))
+    return db.session.query(User).filter(User.id==id).one_or_none()
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -106,21 +106,26 @@ def get_mylist():
     content = ['', '', '']
     comment = ['', '', '']
 
-    rows = List.query.filter_by(user_id=current_user.get_id()).order_by(List.rank).all()
+    try:
+        rows = db.session.execute(db.select(List).where(List.user_id==current_user.get_id()).order_by(List.rank)).scalars().all()
 
-    if not rows:
+        if not rows:
+            return zip(rank, content, comment)
+
+        rank.clear()
+        content.clear()
+        comment.clear()
+
+        for row in rows:
+            rank.append(row.rank)
+            content.append(row.content)
+            comment.append(row.comment)
+
         return zip(rank, content, comment)
 
-    rank.clear()
-    content.clear()
-    comment.clear()
-
-    for row in rows:
-        rank.append(row.rank)
-        content.append(row.content)
-        comment.append(row.comment)
-
-    return zip(rank, content, comment)
+    except Exception as e:
+        print(e)
+        abort(500)
 
 
 def update_mylist(rank, content, comment):
