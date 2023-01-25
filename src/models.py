@@ -42,5 +42,6 @@ class List(db.Model):
         self.user_id = user_id
 
 
+# call this function in docker container
 def init():
     db.create_all()
