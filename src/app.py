@@ -78,7 +78,7 @@ def load_user(id):
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    return render_template('index.html', list=get_mylist())
+    return render_template('index.html', list=search_mylist())
 
 
 @app.route('/update', methods=['GET', 'POST'])
@@ -100,7 +100,7 @@ def update():
     return redirect(url_for('index'))
 
 
-def get_mylist():
+def search_mylist():
     # initial values
     rank = [1, 2, 3]
     content = ['', '', '']
