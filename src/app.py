@@ -33,7 +33,7 @@ def signup():
                 flash('User added successfully', 'success')
                 return redirect(url_for('login'))
             except Exception as e:
-                print(e)
+                app.logger.error('An unexpected error has occurred: \n%s', e)
                 abort(500)
         else:
             flash('Invalid username or password', 'error')
@@ -73,12 +73,17 @@ def logout():
 
 @login_manager.user_loader
 def load_user(id):
-    return db.session.query(User).filter(User.id==id).one_or_none()
+    try:
+        return db.session.query(User).filter(User.id==id).one_or_none()
+    except Exception as e:
+        app.logger.error('An unexpected error has occurred: \n%s', e)
+        abort(500)
 
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
     return render_template('index.html', list=search_mylist())
+
 
 
 @app.route('/update', methods=['GET', 'POST'])
@@ -124,7 +129,7 @@ def search_mylist():
         return zip(rank, content, comment)
 
     except Exception as e:
-        print(e)
+        app.logger.error('An unexpected error has occurred: \n%s', e)
         abort(500)
 
 
@@ -142,7 +147,7 @@ def update_mylist(rank, content, comment):
         db.session.commit()
 
     except Exception as e:
-        print(e)
+        app.logger.error('An unexpected error has occurred: \n%s', e)
         abort(500)
 
 
