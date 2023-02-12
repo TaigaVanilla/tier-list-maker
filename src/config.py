@@ -12,6 +12,8 @@ class ProductionConfig(Config):
     if os.getenv('DATABASE_URL') is not None:
         SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL').replace('postgres://', 'postgresql://')
 
+    SQLALCHEMY_ENGINE_OPTIONS = {'pool_pre_ping': True}
+
 
 class DevelopmentConfig(Config):
     DEBUG = True
