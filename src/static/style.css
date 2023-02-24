@@ -70,8 +70,6 @@ body {
     font-size: 18px;
 }
 
-
-
 @media screen and (max-width: 39.9375em) {
     .container {
         width: 85%;
@@ -131,4 +129,97 @@ body {
     border: none;
     pointer-events: none;
     box-shadow: none;
+}
+
+@keyframes configure-clockwise {
+    0% {
+        transform: rotate(0);
+    }
+
+    25% {
+        transform: rotate(90deg);
+    }
+
+    50% {
+        transform: rotate(180deg);
+    }
+
+    75% {
+        transform: rotate(270deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes configure-xclockwise {
+    0% {
+        transform: rotate(45deg);
+    }
+
+    25% {
+        transform: rotate(-45deg);
+    }
+
+    50% {
+        transform: rotate(-135deg);
+    }
+
+    75% {
+        transform: rotate(-225deg);
+    }
+
+    100% {
+        transform: rotate(-315deg);
+    }
+}
+
+.spinner-box {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #fefefc;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 9999;
+}
+
+.configure-border-1 {
+    width: 160px;
+    height: 160px;
+    padding: 3px;
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #fb5b53;
+    animation: configure-clockwise 3s ease-in-out 0s infinite alternate;
+}
+
+.configure-border-2 {
+    width: 160px;
+    height: 160px;
+    padding: 3px;
+    left: -160px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #40f9e4;
+    transform: rotate(45deg);
+    animation: configure-xclockwise 3s ease-in-out 0s infinite alternate;
+}
+
+.configure-core {
+    width: 100%;
+    height: 100%;
+    background-color: #fefefc;
+}
+
+.loaded {
+    opacity: 0;
+    visibility: hidden;
 }

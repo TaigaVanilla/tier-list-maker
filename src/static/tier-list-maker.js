@@ -1,6 +1,6 @@
-window.onload = function () {
+window.addEventListener('load', function () {
     displayMode();
-};
+}, false);
 
 function addRow() {
     let table = document.getElementById('table');
