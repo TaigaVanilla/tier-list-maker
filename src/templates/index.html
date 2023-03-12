@@ -14,7 +14,13 @@
         {% endwith %}
     </div>
     <div class="list-wrapper">
-        <form action="{{ url_for('update') }}" method="post" name="listform">
+        <form action="{{ url_for('update') }}" method="post" onsubmit="deleteEmptyRow()" name="listform">
+            {{ form.csrf_token }}
+            <div class="message-area message-text-center">
+                {% for error_message in error_messages %}
+                {{ error_message }}<br>
+                {% endfor %}
+            </div>
             <table id="table" class="unstriped">
                 <thead>
                     <tr>
@@ -24,13 +30,11 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for rank, content, comment in list %}
+                    {% for rank, content, comment in zip(form.rank, form.content, form.comment) %}
                     <tr>
-                        <td><input type="number" class="input-text" name="rank" value="{{ rank }}" max="99999"></td>
-                        <td><input type="text" class="input-text" name="content" value="{{ content }}" maxlength="80">
-                        </td>
-                        <td><input type="text" class="input-text" name="comment" value="{{ comment }}" maxlength="255">
-                        </td>
+                        <td>{{ rank(size=5, type="number", class="input-text") }}</td>
+                        <td>{{ content(maxlength=80, class="input-text") }}</td>
+                        <td>{{ comment(maxlength=255, class="input-text") }}</td>
                     </tr>
                     {% endfor %}
                 </tbody>
@@ -38,7 +42,7 @@
             <button type="button" id="editButton" class="button radius" onclick="editMode()">Edit</button>
             <button type="button" id="addRowButton" class="button radius" onclick="addRow()">+</button>
             <button type="button" id="cancelButton" class="button radius" onclick="showConfirm()">Cancel</button>
-            <button type="submit" id="doneButton" class="button done-button radius">Done</button>
+            <span id="doneButton">{{ form.submit(class_="button done-button radius") }}</span>
         </form>
     </div>
 </section>

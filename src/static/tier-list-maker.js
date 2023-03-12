@@ -5,12 +5,13 @@ window.addEventListener('load', function () {
 function addRow() {
     let table = document.getElementById('table');
     let row = table.insertRow(-1);
-    let cell1 = row.insertCell(-1);
-    let cell2 = row.insertCell(-1);
-    let cell3 = row.insertCell(-1);
-    cell1.innerHTML = '<input type="number" class="input-text" name="rank" max="99999">';
-    cell2.innerHTML = '<input type="text" class="input-text" name="content" maxlength="80">';
-    cell3.innerHTML = '<input type="text" class="input-text" name="comment" maxlength="255">';
+    let rankCell = row.insertCell(-1);
+    let contentCell = row.insertCell(-1);
+    let commentCell = row.insertCell(-1);
+    let rowCount = table.tBodies[0].rows.length;
+    rankCell.innerHTML = `<input class="input-text" id="rank-${rowCount - 1}" max="99999" min="0" name="rank-${rowCount - 1}" size="5" type="number">`;
+    contentCell.innerHTML = `<input class="input-text" id="content-${rowCount - 1}" maxlength="80" name="content-${rowCount - 1}" type="text">`;
+    commentCell.innerHTML = `<input class="input-text" id="comment-${rowCount - 1}" maxlength="255" name="comment-${rowCount - 1}" type="text">`;
 }
 
 function deleteEmptyRow() {

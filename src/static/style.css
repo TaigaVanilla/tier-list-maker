@@ -117,6 +117,10 @@ body {
     color: springgreen;
 }
 
+.message-text-center {
+    text-align: center;
+}
+
 .done-button {
     float: right
 }

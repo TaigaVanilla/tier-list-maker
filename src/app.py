@@ -2,7 +2,7 @@ import os
 from flask import abort, flash, Flask, redirect, render_template, request, url_for
 from flask_login import current_user, LoginManager, login_user, logout_user
 from flask_sqlalchemy import SQLAlchemy
-from forms import LoginForm, RegistrationForm
+from forms import ListForm, LoginForm, RegistrationForm
 from models import User, List
 
 
@@ -12,6 +12,8 @@ if os.getenv('FLASK_ENV') == 'production':
     app.config.from_object('config.ProductionConfig')
 else:
     app.config.from_object('config.DevelopmentConfig')
+
+app.jinja_env.filters['zip'] = zip
 
 db = SQLAlchemy(app)
 
@@ -74,7 +76,7 @@ def logout():
 @login_manager.user_loader
 def load_user(id):
     try:
-        return db.session.query(User).filter(User.id==id).one_or_none()
+        return db.session.query(User).filter(User.id == id).one_or_none()
     except Exception as e:
         app.logger.error('An unexpected error has occurred: \n%s', e)
         abort(500)
@@ -82,25 +84,42 @@ def load_user(id):
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    return render_template('index.html', list=search_mylist())
+    form = ListForm()
 
+    rank, content, comment = search_mylist()
+
+    for i in range(len(rank)):
+        form.rank.append_entry(rank[i])
+        form.content.append_entry(content[i])
+        form.comment.append_entry(comment[i])
+
+    return render_template('index.html', form=form, zip=zip)
 
 
 @app.route('/update', methods=['GET', 'POST'])
 def update():
-    if request.method == 'POST':
-        rank = request.form.getlist('rank')
-        content = request.form.getlist('content')
-        comment = request.form.getlist('comment')
+    form = ListForm()
 
+    if request.method == 'POST':
         if not current_user.is_authenticated:
             flash('Please login', 'error')
-            return render_template('index.html', list=zip(rank, content, comment))
+            return render_template('index.html', form=form, zip=zip)
 
-        if not validate_list(rank, content, comment):
-            return render_template('index.html', list=zip(rank, content, comment))
+        rank = form.rank.data
+        content = form.content.data
+        comment = form.comment.data
 
-        update_mylist(rank, content, comment)
+        if form.validate_on_submit():
+            update_mylist(rank, content, comment)
+        else:
+            error_messages = []
+            for field_name, field_errors in form.errors.items():
+                for error_message in field_errors:
+                    if error_message:
+                        error_messages.append(error_message[0])
+            # remove duplicates from error_messages list
+            error_messages = list(dict.fromkeys(error_messages))
+            return render_template('index.html', form=form, zip=zip, error_messages=error_messages)
 
     return redirect(url_for('index'))
 
@@ -112,10 +131,14 @@ def search_mylist():
     comment = ['', '', '']
 
     try:
-        rows = db.session.execute(db.select(List).where(List.user_id==current_user.get_id()).order_by(List.rank)).scalars().all()
+        rows = (
+            db.session.execute(db.select(List).where(List.user_id == current_user.get_id()).order_by(List.rank))
+            .scalars()
+            .all()
+        )
 
         if not rows:
-            return zip(rank, content, comment)
+            return rank, content, comment
 
         rank.clear()
         content.clear()
@@ -126,7 +149,7 @@ def search_mylist():
             content.append(row.content)
             comment.append(row.comment)
 
-        return zip(rank, content, comment)
+        return rank, content, comment
 
     except Exception as e:
         app.logger.error('An unexpected error has occurred: \n%s', e)
@@ -149,31 +172,6 @@ def update_mylist(rank, content, comment):
     except Exception as e:
         app.logger.error('An unexpected error has occurred: \n%s', e)
         abort(500)
-
-
-def validate_list(rank, content, comment):
-    for row in range(len(rank)):
-        if not rank[row].isnumeric() and rank[row] == '':
-            flash('Rank must be a number', 'error')
-            return False
-
-        if int(rank[row]) < 0:
-            flash('Rank must be greater than or equal to 0')
-            return False
-
-        if len(rank[row]) > 5:
-            flash('Rank must be less than 6 characters', 'error')
-            return False
-
-        if len(content[row]) > 80:
-            flash('Content must be less than 81 characters', 'error')
-            return False
-
-        if len(comment[row]) > 255:
-            flash('Comment must be less than 256 characters', 'error')
-            return False
-
-    return True
 
 
 @app.errorhandler(500)
