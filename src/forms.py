@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
 from models import User
 from wtforms import BooleanField, FieldList, IntegerField, PasswordField, StringField, SubmitField
-from wtforms.validators import EqualTo, InputRequired, Length, NumberRange, StopValidation, ValidationError
+from wtforms.validators import EqualTo, InputRequired, Length, NumberRange, ValidationError
 
 
 class RegistrationForm(FlaskForm):
@@ -55,7 +55,7 @@ class ListForm(FlaskForm):
         StringField(
             'Content',
             validators=[
-                Length(max=5, message='Content must be less than or equal to 80 characters.'),
+                Length(max=80, message='Content must be less than or equal to 80 characters.'),
             ],
         ),
     )
@@ -63,7 +63,7 @@ class ListForm(FlaskForm):
         StringField(
             'Comment',
             validators=[
-                Length(max=5, message='Comment must be less than or equal to 255 characters.'),
+                Length(max=255, message='Comment must be less than or equal to 255 characters.'),
             ],
         ),
     )
