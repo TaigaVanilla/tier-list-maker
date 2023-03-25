@@ -3,6 +3,12 @@ You can create your own list.
 ## Website
 Link : https://tierlistmaker.fly.dev/
 
+## Built With
+This project was built using these technologies:
+- Python3
+- Flask
+- Docker
+
 ## Getting Started
 ### Prerequisites
 1. Docker
