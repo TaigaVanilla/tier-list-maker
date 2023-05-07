@@ -31,17 +31,4 @@ docker-compose exec web flask shell
 ```
 from models import init; init()
 ```
-
-### Environment Variables
-Create .env file
-```
-FLASK_APP=app.py
-FLASK_ENV=development
-
-POSTGRES_USER=user
-POSTGRES_PASSWORD=password
-
-POSTGRES_DB=tierlistmaker
-TZ=Asia/Tokyo
-POSTGRES_INITDB_ARGS=--encoding=UTF-8
-```
+5. Open a browser and type in _localhost_
