@@ -1,7 +1,5 @@
 # Tier List Maker
 You can create your own list. 
-## Website
-Link : https://tierlistmaker.fly.dev/
 
 ## Built With
 This project was built using these technologies:
